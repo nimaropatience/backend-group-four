@@ -1,0 +1,25 @@
+{
+  "name": "backend-group-four",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "node index.js",
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nimaropatience/backend-group-four.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nimaropatience/backend-group-four/issues"
+  },
+  "homepage": "https://github.com/nimaropatience/backend-group-four#readme",
+  "description": "",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
