@@ -20,15 +20,16 @@ app.get('/', (req, res) => {
     res.json({ message: 'Welcome to the API server' });
 
 });
-app.post('/api/produce', async (req, res) => {
-    try {
-    
-        const produce = await Produce.create(req.body);
-        res.status(200).json(produce);
-    } catch (error) {
-        res.status(500).json({ message: "Error has occurred" });
-    }
-});
+
+// app.post('/api/produce', async (req, res) => {
+//     console.log(req.body);
+//     try {
+//         const produce = await Produce.create(req.body);
+//         res.status(200).json(produce);
+//     } catch (error) {
+//         res.status(500).json({ message: "Error has occurred" });
+//     }
+// });
  
 
 

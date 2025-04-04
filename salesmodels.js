@@ -45,5 +45,5 @@ const salesSchema = new mongoose.Schema({
     }
 
 );
-const Sales = mongoose.model('Sales', produceSchema);
-module.exports = Sa;
+const Sales = mongoose.model('Sales', SalesSchema);
+module.exports = Sales;
