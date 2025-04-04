@@ -1,21 +1,21 @@
-import mysql from 'mysql';
-import dotenv from 'dotenv';
-dotenv.config();
+// import mysql from 'mysql';
+// import dotenv from 'dotenv';
+// dotenv.config();
 
-const db = mysql.createConnection({
-    host: '127.0.0.1',
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    port:3307,
-});
+// const db = mysql.createConnection({
+//     host: '127.0.0.1',
+//     user: process.env.DB_USER,
+//     password: process.env.DB_PASSWORD,
+//     database: process.env.DB_NAME,
+//     port:3307,
+// });
 
-db.connect(err => {
-    if (err) {
-        console.error('Database connection failed:', err);
-        return;
-    }
-    console.log('Connected to MySQL database');
-});
+// db.connect(err => {
+//     if (err) {
+//         console.error('Database connection failed:', err);
+//         return;
+//     }
+//     console.log('Connected to MySQL database');
+// });
 
-export default db;
+// export default db;

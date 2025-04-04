@@ -3,7 +3,8 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const Produce = require('./producemodels'); // Import the Produce model
+const Produce = require('./producemodels');
+// const Sales = require('./salesmodels') // Import the Produce model
 const path = require('path');
 const app = express();
 app.use(express.json());
@@ -17,36 +18,65 @@ app.use(bodyParser.json());
 // Root endpoint (for frontend basic data)
 app.get('/', (req, res) => {
     res.json({ message: 'Welcome to the API server' });
-});
-app.post('/api/produce',async(req, res) =>{
-    // console.log(req.body);
-    // res.send(req.body);
 
-    try{
-    const produce = await Produce.create(req.body);
-    res.status(200).json(produce); 
+});
+app.post('/api/produce', async (req, res) => {
+    try {
+    
+        const produce = await Produce.create(req.body);
+        res.status(200).json(produce);
     } catch (error) {
-        res.status(500).json({measage:"Error occured"})
-
+        res.status(500).json({ message: "Error has occurred" });
     }
-
-        
 });
+ 
+
+
+//     try {
+//         const produce = await Produce.create(req.body);
+//         res.status(200).json(produce);
+//     } catch (error) {
+//         res.status(500).json({ message: "Error has occurred" });
+//     }
+
+app.post('/api/produce', async (req, res) => {
+    console.log(req.body);
+    res.send(req.body);
+});
+
+app.get('/api/produce', async (req, res) => {
+    console.log(req.body);
+    res.send(req.body);
+});
+
+app.delete('/api/produce', async (req, res) => {
+    console.log(req.body);
+    res.send(req.body);
+});
+    
+
+
+//     try{
+//     const produce = await Produce.create(req.body);
+//     res.status(200).json(produce); 
+//     } catch (error) {
+//         res.status(500).json({message:"Error has  occurred"})
+
+//     }
+// });
 // Connect to MongoDB using the URI from .env
 require('dotenv').config();
-mongoose.connect(process.env.MONGO_URI,
-{
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+mongoose.connect(process.env.MONGO_URI, {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
 })
 .then(() => {
     console.log("Connected to MongoDB database!");
 })
-
 .catch((err) => {
     console.error("Not connected to the database!", err);
 });
-
+// 
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
