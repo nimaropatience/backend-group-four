@@ -3,18 +3,11 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-
-// Load environment variables from .env file
-dotenv.config();
-
-// Ensure MONGO_URI is defined
-if (!process.env.MONGO_URI) {
-    console.error("Error: MONGO_URI is not defined in the .env file");
-    process.exit(1);
-}
-
-// Initialize Express app
+const Produce = require('./producemodels'); // Import the Produce model
+const path = require('path');
 const app = express();
+app.use(express.json());
+// Load environment variables from .env file
 const PORT = process.env.PORT || 3000;
 
 // Middleware
@@ -25,9 +18,27 @@ app.use(bodyParser.json());
 app.get('/', (req, res) => {
     res.json({ message: 'Welcome to the API server' });
 });
+app.post('/api/produce',async(req, res) =>{
+    // console.log(req.body);
+    // res.send(req.body);
 
+    try{
+    const produce = await Produce.create(req.body);
+    res.status(200).json(produce); 
+    } catch (error) {
+        res.status(500).json({measage:"Error occured"})
+
+    }
+
+        
+});
 // Connect to MongoDB using the URI from .env
-mongoose.connect(process.env.MONGO_URI)
+require('dotenv').config();
+mongoose.connect(process.env.MONGO_URI,
+{
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
 .then(() => {
     console.log("Connected to MongoDB database!");
 })
