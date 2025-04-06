@@ -2,7 +2,6 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
 const Produce = require('./producemodels');
 // const Sales = require('./salesmodels') // Import the Produce model
 const path = require('path');
@@ -55,29 +54,6 @@ app.delete('/api/produce', async (req, res) => {
     res.send(req.body);
 });
     
-
-
-//     try{
-//     const produce = await Produce.create(req.body);
-//     res.status(200).json(produce); 
-//     } catch (error) {
-//         res.status(500).json({message:"Error has  occurred"})
-
-//     }
-// });
-// Connect to MongoDB using the URI from .env
-require('dotenv').config();
-mongoose.connect(process.env.MONGO_URI, {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-})
-.then(() => {
-    console.log("Connected to MongoDB database!");
-})
-.catch((err) => {
-    console.error("Not connected to the database!", err);
-});
-// 
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
