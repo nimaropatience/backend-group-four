@@ -1,70 +1,74 @@
-const Produce = require('../models/producemodels');
+const creditSales = require('../models/creditSalesmodel');
 
-const createProduce = async (req, res) => {
-  const { ProduceId, ProduceName, Type, Date, Time, Tonnage, Cost, DealerName, Branch, Contact, SellingPrice } = req.body;
+const createcreditSales = async (req, res) => {
+  const { 
+    BuyersName, NIN, Location, AmountDue, DueDate, ProduceId
+   } = req.body;
   try {
-    await Produce.create(ProduceId, ProduceName, Type, Date, Time, Tonnage, Cost, DealerName, Branch, Contact, SellingPrice);
-    res.status(201).json({ message: 'Produce added successfully' });
+    await creditSales.create(
+      BuyersName, NIN, Location, AmountDue, DueDate, ProduceId
+    );
+    res.status(201).json({ message: 'creditSales added successfully' });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
-const getAllProduce = async (req, res) => {
+const getAllcreditSales = async (req, res) => {
   try {
-    const [results] = await Produce.getAll();
+    const [results] = await creditSales.getAll();
     res.json(results);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
-const getProduceById = async (req, res) => {
-  const ProduceId = req.params.id;
+const getcreditSalesById = async (req, res) => {
+  const NIN = req.params.id;
   try {
-    const [results] = await Produce.getById(ProduceId);
-    if (results.length === 0) return res.status(404).json({ error: 'Produce not found' });
+    const [results] = await creditSales.getById(NIN);
+    if (results.length === 0) return res.status(404).json({ error: 'creditSales not found' });
     res.json(results[0]);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
-const updateProduce = async (req, res) => {
-  const ProduceIdId = req.params.id;
-  const { ProduceId, ProduceName, Type, Date, Time, Tonnage, Cost, DealerName, Branch, Contact, SellingPrice } = req.body;
+const updatecreditSales = async (req, res) => {
+  const NINId = req.params.id;
+  const { BuyersName, NIN, Location, AmountDue, DueDate, ProduceId } = req.body;
   try {
-    await Produce.update(ProduceId, ProduceName, Type, Date, Time, Tonnage, Cost, DealerName, Branch, Contact, SellingPrice);
-    res.json({ message: 'Produce updated successfully' });
+    await creditSales.update(BuyersName, NIN, Location, AmountDue, DueDate, ProduceId);
+    res.json({ message: 'creditSales updated successfully' });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
-const deleteProduce = async (req, res) => {
-  const ProduceId = req.params.id;
+const deletecreditSales = async (req, res) => {
+  const NIN = req.params.id;
   try {
-    await Produce.delete(ProduceId);
-    res.json({ message: 'Produce deleted successfully' });
+    await creditSales.delete(NIN);
+    res.json({ message: 'creditSales deleted successfully' });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
-const addProduceToProduce = async (req, res) => {
+const addBuyerTocreditSales = async (req, res) => {
   const { userId, chapterId } = req.body;
   try {
-    await Produce.addProduceToProduce(userId, chapterId);
-    res.status(201).json({ message: 'Produce added to chapter successfully' });
+    await creditSales.addBuyerTocreditSales(userId, chapterId);
+    res.status(201).json({ message: 'creditSales added to chapter successfully' });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
-const getProduceInProduce = async (req, res) => {
-  const ProduceId = req.params.id;
+const getBuyerIncreditSales = async (req, res) => {
+  const NIN = req.params.id;
   try {
-    const [results] = await Produce.getProduceInProduce(ProduceId);
+    const [results] = await creditSales.getBuyerIncreditSales(NIN);
     res.json(results);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -72,11 +76,11 @@ const getProduceInProduce = async (req, res) => {
 };
 
 module.exports = {
-  createProduce,
-  getAllProduce,
-  getProduceById,
-  updateProduce,
-  deleteProduce,
-  addProduceToProduce,
-  getProduceInProduce,
+  createcreditSales,
+  getAllcreditSales,
+  getcreditSalesById,
+  updatecreditSales,
+  deletecreditSales,
+  addBuyerTocreditSales,
+  getBuyerIncreditSales,
 };
