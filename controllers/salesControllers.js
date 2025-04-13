@@ -32,10 +32,10 @@ const getSalesById = async (req, res) => {
 };
 
 const updateSales = async (req, res) => {
-  const Sales = req.params.id;
-  const { SalesId, ProduceName, Tonnage, AmountPaid, BuyersName, SalesAgentsName, Date, Time, BuyersContact } = req.body;
+  const salesId = req.params.id;
+  const { ProduceName, Tonnage, AmountPaid, BuyersName, SalesAgentsName, Date, Time, BuyersContact } = req.body;
   try {
-    await Sales.update(SalesId, ProduceName, Tonnage, AmountPaid, BuyersName, SalesAgentsName, Date, Time, BuyersContact);
+    await Sales.update(salesId, ProduceName, Tonnage, AmountPaid, BuyersName, SalesAgentsName, Date, Time, BuyersContact);
     res.json({ message: 'Sales updated successfully' });
   } catch (err) {
     res.status(500).json({ error: err.message });
