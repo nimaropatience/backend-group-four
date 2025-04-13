@@ -64,3 +64,80 @@ app.listen(PORT, () => {
 //     console.error(err.stack);
 //     res.status(500).json({ message: 'Internal server error' });
 // });
+
+
+
+// USERS END POINTS
+app.post('api/user', async (req, res) => {
+    console.log(req.body);
+    res.send(req.body);
+});
+
+app.put('api/users/:email', async (req, res) => {
+    console.log(req.body);
+    res.send(req.body);
+});
+
+app.get('/api/users', async (req, res) => {
+    console.log(req.body);
+    res.send(req.body);
+});
+
+app.delete('api/users/:email', async (req, res) => {
+    console.log(req.body);
+    res.send(req.body);
+});
+
+
+
+
+/// CREDITSALES
+app.get('api/creditsales', async (req, res) => {
+    console.log(req.body);
+    res.send(req.body);
+});
+
+app.put('api/creditsales/:id', async (req, res) => {
+    console.log(req.body);
+    res.send(req.body);
+});
+
+app.delete('/creditsales/:id', async (req, res) => {
+    console.log(req.body);
+    res.send(req.body);
+});
+
+app.post('api/creditsales', async (req, res) => {
+    console.log(req.body);
+    res.send(req.body);
+});
+
+app.get('api/creditsales/:id', async (req, res) => {
+    console.log(req.body);
+    res.send(req.body);
+});
+
+
+app.get('api/creditsales/:id/creditsales', async (req, res) => {
+    console.log(req.body);
+    res.send(req.body);
+});
+
+app.post('api/creditsales/:id/creditsales', async (req, res) => {
+    console.log(req.body);
+    res.send(req.body);
+});
+
+app.get('api/creditsales/:id/creditsales', async (req, res) => {
+    console.log(req.body);
+    res.send(req.body);
+});
+
+    
+// Start the server
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
+
+
+

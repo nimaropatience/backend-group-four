@@ -14,18 +14,18 @@ const User = {
   },
 
   getAll: () => {
-    const query = 'SELECT id, username, email, created_at FROM users';
+    const query = 'SELECT username, email, created_at FROM users';
     return db.promise().query(query);
   },
 
-  update: (id, username, email) => {
-    const query = 'UPDATE users SET username = ?, email = ? WHERE id = ?';
-    return db.promise().query(query, [username, email, id]);
+  update: (username, email) => {
+    const query = 'UPDATE users SET username = ? WHERE email = ?';
+    return db.promise().query(query, [username, email]);
   },
 
-  delete: (id) => {
-    const query = 'DELETE FROM users WHERE id = ?';
-    return db.promise().query(query, [id]);
+  delete: (email) => {
+    const query = 'DELETE FROM users WHERE email = ?';
+    return db.promise().query(query, [email]);
   },
 };
 

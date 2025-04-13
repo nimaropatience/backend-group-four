@@ -1,5 +1,5 @@
 const express = require('express');
-const {createcreditSales,getAllcreditSales,getcreditSalesById,updatecreditSales,deletecreditSales,addBuyerTocreditSales,getBuyerIncreditSales,} = require('../controllers/producecontroller');
+const {createcreditSales,getAllcreditSales,getcreditSalesById,updatecreditSales,deletecreditSales,addBuyerTocreditSales,getBuyerIncreditSales} = require('../controllers/producecontroller');
 const authenticateToken = require('./middleware/authmiddleware');
 
 const router = express.Router();

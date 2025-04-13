@@ -24,7 +24,7 @@ const creditSales = {
   delete: (NIN) => {
     const query = 'DELETE FROM creditSales WHERE NIN = ?';
     return db.promise().query(query, [NIN]);
-  },
+  }
 
 
 //   getUsersInChapter: (chapterId) => {

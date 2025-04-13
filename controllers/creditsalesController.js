@@ -82,5 +82,5 @@ module.exports = {
   updatecreditSales,
   deletecreditSales,
   addBuyerTocreditSales,
-  getBuyerIncreditSales,
+  getBuyerIncreditSales
 };

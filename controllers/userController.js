@@ -2,6 +2,16 @@ const user = require('../models/user');
 const { validationResult } = require('express-validator');
 
 
+const createUsers = async (req, res) => {
+  const { username, password, email } = req.body;
+  try {
+    await Produce.create(username, password, email);
+    res.status(201).json({ message: 'User added successfully' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 const getAllUsers = async (req, res) => {
   try {
     const { page = 1, limit = 10 } = req.query;
@@ -79,4 +89,4 @@ const deleteUser = async (req, res) => {
   }
 };
 
-module.exports = { getAllUsers, updateUser, deleteUser };
+module.exports = {createUsers, getAllUsers, updateUser, deleteUser };
