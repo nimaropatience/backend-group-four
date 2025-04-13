@@ -46,18 +46,18 @@ const updateUser = async (req, res) => {
 
   try {
   
-    const [userExists] = await user.getById(userId);
+    const [userExists] = await user.getById(email);
     if (!userExists || userExists.length === 0) {
       return res.status(404).json({ error: 'User not found' });
     }
 
     
     const [existingEmail] = await user.getByEmail(email);
-    if (existingEmail && existingEmail.id !== userId) {
+    if (existingEmail && existingEmail.email !== email) {
       return res.status(409).json({ error: 'Email already in use' });
     }
 
-    await user.update(userId, username, email);
+    await user.update(username, email);
     res.json({ message: 'User updated successfully' });
   } catch (err) {
     console.error('Error updating user:', err);

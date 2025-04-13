@@ -92,43 +92,43 @@ app.delete('api/users/:email', async (req, res) => {
 
 
 /// CREDITSALES
-app.get('api/creditsales', async (req, res) => {
+app.get('api/creditSales', async (req, res) => {
     console.log(req.body);
     res.send(req.body);
 });
 
-app.put('api/creditsales/:id', async (req, res) => {
+app.put('api/creditSales/:id', async (req, res) => {
     console.log(req.body);
     res.send(req.body);
 });
 
-app.delete('/creditsales/:id', async (req, res) => {
+app.delete('/creditSales/:id', async (req, res) => {
     console.log(req.body);
     res.send(req.body);
 });
 
-app.post('api/creditsales', async (req, res) => {
+app.post('api/creditSales', async (req, res) => {
     console.log(req.body);
     res.send(req.body);
 });
 
-app.get('api/creditsales/:id', async (req, res) => {
+app.get('api/creditSales/:id', async (req, res) => {
     console.log(req.body);
     res.send(req.body);
 });
 
 
-app.get('api/creditsales/:id/creditsales', async (req, res) => {
+app.get('api/creditSales/:id/creditSales', async (req, res) => {
     console.log(req.body);
     res.send(req.body);
 });
 
-app.post('api/creditsales/:id/creditsales', async (req, res) => {
+app.post('api/creditSales/:id/creditSales', async (req, res) => {
     console.log(req.body);
     res.send(req.body);
 });
 
-app.get('api/creditsales/:id/creditsales', async (req, res) => {
+app.get('api/creditSales/:id/creditSales', async (req, res) => {
     console.log(req.body);
     res.send(req.body);
 });
