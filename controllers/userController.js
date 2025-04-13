@@ -5,7 +5,7 @@ const { validationResult } = require('express-validator');
 const createUsers = async (req, res) => {
   const { username, password, email } = req.body;
   try {
-    await Produce.create(username, password, email);
+    await user.create(username, password, email);
     res.status(201).json({ message: 'User added successfully' });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -71,17 +71,17 @@ const deleteUser = async (req, res) => {
 
   try {
 
-    const [userExists] = await user.getById(userId);
+    const [userExists] = await user.getByEmail(email);
     if (!userExists || userExists.length === 0) {
       return res.status(404).json({ error: 'User not found' });
     }
 
     
-    if (req.user.role !== 'admin' && req.user.id !== userId) {
+    if (req.user.role !== 'admin' && req.user.email !== email) {
       return res.status(403).json({ error: 'Unauthorized' });
     }
 
-    await user.delete(userId);
+    await user.delete(email);
     res.status(204).send(); 
   } catch (err) {
     console.error('Error deleting user:', err);

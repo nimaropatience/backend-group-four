@@ -68,7 +68,7 @@ app.listen(PORT, () => {
 
 
 // USERS END POINTS
-app.post('api/user', async (req, res) => {
+app.post('api/users', async (req, res) => {
     console.log(req.body);
     res.send(req.body);
 });
