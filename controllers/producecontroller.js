@@ -71,7 +71,7 @@ const getProduceInProduce = async (req, res) => {
   }
 };
 
-module.exports{
+module.exports = {
   createProduce,
   getAllProduce,
   getProduceById,
