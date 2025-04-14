@@ -46,7 +46,7 @@ const updateUser = async (req, res) => {
 
   try {
   
-    const [userExists] = await user.getById(email);
+    const [userExists] = await user.getByEmail(email);
     if (!userExists || userExists.length === 0) {
       return res.status(404).json({ error: 'User not found' });
     }

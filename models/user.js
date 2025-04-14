@@ -27,6 +27,13 @@ const User = {
     const query = 'DELETE FROM users WHERE email = ?';
     return db.promise().query(query, [email]);
   },
+
+  getByEmail: (email) => {
+    const query = 'SELECT * FROM Produce WHERE email = ?';
+    return db.promise().query(query, [email]);
+  }
+
+
 };
 
 module.exports = User;
