@@ -2,7 +2,7 @@ const db = require('../config/db');
 
 const creditSales = {
   create: (BuyersName, NIN, Location, AmountDue, DueDate, ProduceId) => {
-    const query = 'INSERT INTO Receipt (BuyersName, NIN, Location, AmountDue, DueDate, ProduceId) VALUES (?, ?, ?, ?, ?, ?)';``
+    const query = 'INSERT INTO creditsales (BuyersName, NIN, Location, AmountDue, DueDate, ProduceId) VALUES (?, ?, ?, ?, ?, ?)';
     return db.promise().query(query, [BuyersName, NIN, Location, AmountDue, DueDate, ProduceId]);
   },
 
@@ -17,8 +17,8 @@ const creditSales = {
   },
 
   update: (BuyersName, NIN, Location, AmountDue, DueDate, ProduceId) => {
-    const query = 'UPDATE creditSales SET BuyersName = ?, NIN = ?, Location = ?, AmountDue = ?, DueData = ?, ProduceId = ? WHERE NIN = ?';
-    return db.promise().query(query, [BuyersName, NIN, Location, AmountDue, DueDate, ProduceId]);
+    const query = 'UPDATE creditSales SET BuyersName = ?, NIN = ?, Location = ?, AmountDue = ?, DueDate = ?, ProduceId = ? WHERE NIN = ?';
+    return db.promise().query(query, [BuyersName, NIN, Location, AmountDue, DueDate, ProduceId, NIN]);
   },
 
   delete: (NIN) => {

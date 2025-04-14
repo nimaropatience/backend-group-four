@@ -89,6 +89,46 @@ app.delete('api/users/:email', async (req, res) => {
 });
 
 
+// SALES END POINTS
+app.get('api/sales', async (req, res) => {
+    console.log(req.body);
+    res.send(req.body);
+});
+
+app.delete('api/sales/:id', async (req, res) => {
+    console.log(req.body);
+    res.send(req.body);
+});
+
+app.put('api/sales/:id', async (req, res) => {
+    console.log(req.body);
+    res.send(req.body);
+});
+
+app.post('api/sales', async (req, res) => {
+    console.log(req.body);
+    res.send(req.body);
+});
+
+app.get('api/sales/:id', async (req, res) => {
+    console.log(req.body);
+    res.send(req.body);
+});
+
+app.get('api/sales/:id/sales', async (req, res) => {
+    console.log(req.body);
+    res.send(req.body);
+});
+
+app.post('api/sales/:id/sales', async (req, res) => {
+    console.log(req.body);
+    res.send(req.body);
+});
+
+app.get('api/sales/:id/sales', async (req, res) => {
+    console.log(req.body);
+    res.send(req.body);
+});
 
 
 /// CREDITSALES
@@ -102,7 +142,7 @@ app.put('api/creditSales/:id', async (req, res) => {
     res.send(req.body);
 });
 
-app.delete('/creditSales/:id', async (req, res) => {
+app.delete('api/creditSales/:id', async (req, res) => {
     console.log(req.body);
     res.send(req.body);
 });
