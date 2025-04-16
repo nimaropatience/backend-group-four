@@ -1,11 +1,9 @@
 const db = require('../config/db');
-const bcrypt = require('bcrypt');
 
 const User = {
-  create: async (username, password, email) => {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const query = 'INSERT INTO users (username, password, email) VALUES (?, ?, ?)';
-    return db.promise().query(query, [username, hashedPassword, email]);
+  create: async (username, password, email, role = 'user') => {
+    const query = 'INSERT INTO users (username, password, email, role) VALUES (?, ?, ?, ?)';
+    return db.promise().query(query, [username, password, email, role]);
   },
 
   findByUsername: (username) => {
@@ -14,23 +12,29 @@ const User = {
   },
 
   getAll: () => {
-    const query = 'SELECT username, email, created_at FROM users';
+    const query = 'SELECT id, username, email, role, created_at FROM users';
     return db.promise().query(query);
   },
 
-  update: (username, email) => {
-    const query = 'UPDATE users SET username = ? WHERE email = ?';
-    return db.promise().query(query, [username, email]);
+  getById: (id) => {
+    const query = 'SELECT id, username, email, role, created_at FROM users WHERE id = ?';
+    return db.promise().query(query, [id]);
   },
 
-  delete: (email) => {
-    const query = 'DELETE FROM users WHERE email = ?';
-    return db.promise().query(query, [email]);
+  update: (id, username, email) => {
+    if (parseInt(id) === 1) {
+      throw new Error('Cannot modify CEO user');
+    }
+    const query = 'UPDATE users SET username = ?, email = ? WHERE id = ?';
+    return db.promise().query(query, [username, email, id]);
   },
 
-  getByEmail: (email) => {
-    const query = 'SELECT * FROM users WHERE email = ?';
-    return db.promise().query(query, [email]);
+  delete: (id) => {
+    if (parseInt(id) === 1) {
+      throw new Error('Cannot delete CEO user');
+    }
+    const query = 'DELETE FROM users WHERE id = ?';
+    return db.promise().query(query, [id]);
   }
 };
 

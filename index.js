@@ -1,5 +1,4 @@
 const express = require('express');
-const dotenv = require('dotenv');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const userRoutes = require('./routes/userRouter');
@@ -8,12 +7,10 @@ const stockManagementRoutes = require('./routes/stockmanagementRouters');
 const salesRoutes = require('./routes/salesroutes');
 const receiptRoutes = require('./routes/receiptroutes');
 const creditSalesRoutes = require('./routes/creditsalesRoutes');
+const authRoutes = require('./routes/authRouters');
+const authenticateToken = require('./middleware/authmiddleware');
 
 
-
-
-// const Sales = require('./salesmodels') // Import the Produce model
-const path = require('path');
 const app = express();
 
 // Load environment variables from .env file
@@ -31,6 +28,8 @@ app.use('/api/stock', stockManagementRoutes);
 app.use('/api/sales', salesRoutes);
 app.use('/api/receipts', receiptRoutes);
 app.use('/api/creditsales', creditSalesRoutes);
+app.use('/api/auth', authRoutes);
+
 
 
 
@@ -44,6 +43,3 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
-
-
-
