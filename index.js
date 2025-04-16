@@ -14,7 +14,7 @@ const authenticateToken = require('./middleware/authmiddleware');
 const app = express();
 
 // Load environment variables from .env file
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors());
