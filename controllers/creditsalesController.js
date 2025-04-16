@@ -1,86 +1,70 @@
-const creditSales = require('../models/creditSalesmodel');
+const CreditSales = require('../models/creditSalesmodel');
 
-const createcreditSales = async (req, res) => {
-  const { 
-    BuyersName, NIN, Location, AmountDue, DueDate, ProduceId
-   } = req.body;
-  try {
-    await creditSales.create(
-      BuyersName, NIN, Location, AmountDue, DueDate, ProduceId
-    );
-    res.status(201).json({ message: 'creditSales added successfully' });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+const creditSalesController = {
+  createCreditSale: async (req, res) => {
+    try {
+      const { BuyersName, NIN, Location, AmountDue, DueDate, ProduceId } = req.body;
+      if (!BuyersName || !NIN || !Location || !AmountDue || !DueDate || !ProduceId) {
+        return res.status(400).json({ error: 'All fields are required' });
+      }
+      await CreditSales.create(BuyersName, NIN, Location, AmountDue, DueDate, ProduceId);
+      res.status(201).json({ message: 'Credit sale created successfully' });
+    } catch (error) {
+      res.status(500).json({ error: 'Error creating credit sale', details: error.message });
+    }
+  },
+
+  getAllCreditSales: async (req, res) => {
+    try {
+      const [creditSales] = await CreditSales.getAll();
+      res.status(200).json(creditSales);
+    } catch (error) {
+      res.status(500).json({ error: 'Error fetching credit sales', details: error.message });
+    }
+  },
+
+  getCreditSaleById: async (req, res) => {
+    try {
+      const { NIN } = req.params;
+      const [creditSales] = await CreditSales.getById(NIN);
+      if (creditSales.length === 0) {
+        return res.status(404).json({ error: 'Credit sale not found' });
+      }
+      res.status(200).json(creditSales[0]);
+    } catch (error) {
+      res.status(500).json({ error: 'Error fetching credit sale', details: error.message });
+    }
+  },
+
+  updateCreditSale: async (req, res) => {
+    try {
+      const { NIN } = req.params;
+      const { BuyersName, Location, AmountDue, DueDate, ProduceId } = req.body;
+      if (!BuyersName || !Location || !AmountDue || !DueDate || !ProduceId) {
+        return res.status(400).json({ error: 'All fields are required' });
+      }
+      const [result] = await CreditSales.update(BuyersName, NIN, Location, AmountDue, DueDate, ProduceId);
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ error: 'Credit sale not found' });
+      }
+      res.status(200).json({ message: 'Credit sale updated successfully' });
+    } catch (error) {
+      res.status(500).json({ error: 'Error updating credit sale', details: error.message });
+    }
+  },
+
+  deleteCreditSale: async (req, res) => {
+    try {
+      const { NIN } = req.params;
+      const [result] = await CreditSales.delete(NIN);
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ error: 'Credit sale not found' });
+      }
+      res.status(200).json({ message: 'Credit sale deleted successfully' });
+    } catch (error) {
+      res.status(500).json({ error: 'Error deleting credit sale', details: error.message });
+    }
   }
 };
 
-const getAllcreditSales = async (req, res) => {
-  try {
-    const [results] = await creditSales.getAll();
-    res.json(results);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-const getcreditSalesById = async (req, res) => {
-  const NIN = req.params.id;
-  try {
-    const [results] = await creditSales.getById(NIN);
-    if (results.length === 0) return res.status(404).json({ error: 'creditSales not found' });
-    res.json(results[0]);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-const updatecreditSales = async (req, res) => {
-  const NINId = req.params.id;
-  const { BuyersName, NIN, Location, AmountDue, DueDate, ProduceId } = req.body;
-  try {
-    await creditSales.update(BuyersName, NIN, Location, AmountDue, DueDate, ProduceId);
-    res.json({ message: 'creditSales updated successfully' });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-const deletecreditSales = async (req, res) => {
-  const NIN = req.params.id;
-  try {
-    await creditSales.delete(NIN);
-    res.json({ message: 'creditSales deleted successfully' });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-const addBuyerTocreditSales = async (req, res) => {
-  const { userId, chapterId } = req.body;
-  try {
-    await creditSales.addBuyerTocreditSales(userId, chapterId);
-    res.status(201).json({ message: 'creditSales added to chapter successfully' });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-const getBuyerIncreditSales = async (req, res) => {
-  const NIN = req.params.id;
-  try {
-    const [results] = await creditSales.getBuyerIncreditSales(NIN);
-    res.json(results);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-module.exports = {
-  createcreditSales,
-  getAllcreditSales,
-  getcreditSalesById,
-  updatecreditSales,
-  deletecreditSales,
-  addBuyerTocreditSales,
-  getBuyerIncreditSales
-};
+module.exports = creditSalesController;

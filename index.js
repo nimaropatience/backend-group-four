@@ -7,6 +7,9 @@ const produceRoutes = require('./routes/produceroutes');
 const stockManagementRoutes = require('./routes/stockmanagementRouters');
 const salesRoutes = require('./routes/salesroutes');
 const receiptRoutes = require('./routes/receiptroutes');
+const creditSalesRoutes = require('./routes/creditsalesRoutes');
+
+
 
 
 // const Sales = require('./salesmodels') // Import the Produce model
@@ -27,6 +30,8 @@ app.use('/api/produce', produceRoutes);
 app.use('/api/stock', stockManagementRoutes);
 app.use('/api/sales', salesRoutes);
 app.use('/api/receipts', receiptRoutes);
+app.use('/api/creditsales', creditSalesRoutes);
+
 
 
 // Error handling middleware

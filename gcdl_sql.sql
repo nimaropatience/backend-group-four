@@ -57,16 +57,15 @@ CREATE TABLE Receipt (
 
 DROP TABLE IF EXISTS creditSales;
 
-CREATE TABLE creditSales(
-    BuyersName VARCHAR(10),
-    NIN VARCHAR (15),
-    Location VARCHAR(10), 
-    AmountDue INT(10),
-    DueDate DATE,
-    ProduceId VARCHAR(10),
-    FOREIGN KEY (ProduceId) REFERENCES Produce(ProduceId)
+CREATE TABLE CreditSales (
+  NIN VARCHAR(50) PRIMARY KEY,
+  BuyersName VARCHAR(100) NOT NULL,
+  Location VARCHAR(100) NOT NULL,
+  AmountDue DECIMAL(10,2) NOT NULL,
+  DueDate DATE NOT NULL,
+  ProduceId VARCHAR(50) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
 DROP TABLE IF EXISTS stockManagement;
 
 -- Create StockManagement table

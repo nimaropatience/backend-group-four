@@ -1,16 +1,11 @@
 const express = require('express');
-const authenticateToken = require('./middleware/authmiddleware');
-const {createcreditSales, getAllcreditSales, getcreditSalesById, updatecreditSales, deletecreditSales, addBuyerTocreditSales} = require('../controllers/creditsalesController');
-
 const router = express.Router();
+const creditSalesController = require('../controllers/creditsalesController');
 
-router.get('/creditSales', authenticateToken, getAllcreditSales);
-router.put('/creditSales/:id', authenticateToken, updatecreditSales);
-router.delete('/creditSales/:id', authenticateToken, deletecreditSales);
-router.post('/creditSales', authenticateToken, createcreditSales);
-router.get('/creditSales/:id', authenticateToken, getcreditSalesById);
-router.post('/creditSales/:id/sales', authenticateToken, addBuyerTocreditSales);
-router.get('/creditSales/:id/sales', authenticateToken, getAllcreditSales);
-
+router.post('/', creditSalesController.createCreditSale);
+router.get('/', creditSalesController.getAllCreditSales);
+router.get('/:NIN', creditSalesController.getCreditSaleById);
+router.put('/:NIN', creditSalesController.updateCreditSale);
+router.delete('/:NIN', creditSalesController.deleteCreditSale);
 
 module.exports = router;
