@@ -1,4 +1,4 @@
-const Produce = require('../models/produceModel');
+const Produce = require('../models/producemodels');
 
 const produceController = {
   createProduce: async (req, res) => {
