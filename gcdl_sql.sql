@@ -2,45 +2,60 @@ CREATE DATABASE GCDL;
 
 USE GCDL;
 
-CREATE TABLE users(
-    username VARCHAR(10),
-    password VARCHAR(10),
-    email VARCHAR(20)
+DROP TABLE IF EXISTS users;
+CREATE TABLE users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(50) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  email VARCHAR(100) NOT NULL UNIQUE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE Produce(
-    ProduceId VARCHAR(10) PRIMARY KEY,
-    ProduceName VARCHAR(10),
-    Type VARCHAR(10),
-    Date DATE,
-    Time TIME,
-    Tonnage INT(10),
-    Cost INT(10),
-    DealerName VARCHAR(10),
-    Branch VARCHAR(10),
-    Contact VARCHAR(10),
-    SellingPrice INT(10)
+DROP TABLE IF EXISTS Produce;
+
+CREATE TABLE produce (
+  ProduceId VARCHAR(50) PRIMARY KEY,
+  ProduceName VARCHAR(100) NOT NULL,
+  Type VARCHAR(50) NOT NULL,
+  Date DATE NOT NULL,
+  Time TIME NOT NULL,
+  Tonnage DECIMAL(10,2) NOT NULL,
+  Cost DECIMAL(10,2) NOT NULL,
+  DealerName VARCHAR(100) NOT NULL,
+  Branch VARCHAR(100) NOT NULL,
+  Contact VARCHAR(50) NOT NULL,
+  SellingPrice DECIMAL(10,2) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE Sales(
-    SalesId VARCHAR(10) PRIMARY KEY,
-    ProduceName VARCHAR(10),
-    Tonnage INT(10),
-    AmountPaid INT(10),
-    BuyersName VARCHAR(10),
-    SalesAgentsName VARCHAR(10),
-    Date DATE,
-    Time TIME,
-    BuyersContact VARCHAR(10)
+DROP TABLE IF EXISTS Sales;
+
+CREATE TABLE Sales (
+  SalesId VARCHAR(50) PRIMARY KEY,
+  ProduceName VARCHAR(100) NOT NULL,
+  Tonnage DECIMAL(10,2) NOT NULL,
+  AmountPaid DECIMAL(10,2) NOT NULL,
+  BuyersName VARCHAR(100) NOT NULL,
+  SalesAgentsName VARCHAR(100) NOT NULL,
+  Date DATE NOT NULL,
+  Time TIME NOT NULL,
+  BuyersContact VARCHAR(50) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE Receipt(
-    ReceiptID VARCHAR(10) PRIMARY KEY,
-    AmountPaid INT(10),
-    SalesAgentsName VARCHAR(10),
-    BuyersName VARCHAR(10),
-    ProduceName VARCHAR(10)
+DROP TABLE IF EXISTS Receipt;
+
+CREATE TABLE Receipt (
+  ReceiptID VARCHAR(50) PRIMARY KEY,
+  AmountPaid DECIMAL(10,2) NOT NULL,
+  SalesAgentsName VARCHAR(100) NOT NULL,
+  BuyersName VARCHAR(100) NOT NULL,
+  ProduceName VARCHAR(100) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+
+DROP TABLE IF EXISTS creditSales;
 
 CREATE TABLE creditSales(
     BuyersName VARCHAR(10),
@@ -52,13 +67,16 @@ CREATE TABLE creditSales(
     FOREIGN KEY (ProduceId) REFERENCES Produce(ProduceId)
 );
 
+DROP TABLE IF EXISTS stockManagement;
 
-CREATE TABLE stockManagement(
-    ProduceName VARCHAR(20),
-    ProduceId VARCHAR(20),
-    TonnageSold INT(10),
-    TonnageBought INT(10),
-    CurrentTonnage INT(10),
-    FOREIGN KEY (ProduceId) REFERENCES Produce(ProduceId)
+-- Create StockManagement table
+CREATE TABLE StockManagement (
+  ProduceId VARCHAR(50) PRIMARY KEY,
+  ProduceName VARCHAR(100) NOT NULL,
+  TonnageSold DECIMAL(10,2) NOT NULL,
+  TonnageBought DECIMAL(10,2) NOT NULL,
+  CurrentTonnage DECIMAL(10,2) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
 

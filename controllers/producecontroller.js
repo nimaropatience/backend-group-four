@@ -1,82 +1,70 @@
 const Produce = require('../models/producemodels');
 
-const createProduce = async (req, res) => {
-  const { ProduceId, ProduceName, Type, Date, Time, Tonnage, Cost, DealerName, Branch, Contact, SellingPrice } = req.body;
-  try {
-    await Produce.create(ProduceId, ProduceName, Type, Date, Time, Tonnage, Cost, DealerName, Branch, Contact, SellingPrice);
-    res.status(201).json({ message: 'Produce added successfully' });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+const produceController = {
+  createProduce: async (req, res) => {
+    try {
+      const { ProduceId, ProduceName, Type, Date, Time, Tonnage, Cost, DealerName, Branch, Contact, SellingPrice } = req.body;
+      if (!ProduceId || !ProduceName || !Type || !Date || !Time || !Tonnage || !Cost || !DealerName || !Branch || !Contact || !SellingPrice) {
+        return res.status(400).json({ error: 'All fields are required' });
+      }
+      await Produce.create(ProduceId, ProduceName, Type, Date, Time, Tonnage, Cost, DealerName, Branch, Contact, SellingPrice);
+      res.status(201).json({ message: 'Produce created successfully' });
+    } catch (error) {
+      res.status(500).json({ error: 'Error creating produce', details: error.message });
+    }
+  },
+
+  getAllProduce: async (req, res) => {
+    try {
+      const [produce] = await Produce.getAll();
+      res.status(200).json(produce);
+    } catch (error) {
+      res.status(500).json({ error: 'Error fetching produce', details: error.message });
+    }
+  },
+
+  getProduceById: async (req, res) => {
+    try {
+      const { ProduceId } = req.params;
+      const [produce] = await Produce.getById(ProduceId);
+      if (produce.length === 0) {
+        return res.status(404).json({ error: 'Produce not found' });
+      }
+      res.status(200).json(produce[0]);
+    } catch (error) {
+      res.status(500).json({ error: 'Error fetching produce', details: error.message });
+    }
+  },
+
+  updateProduce: async (req, res) => {
+    try {
+      const { ProduceId } = req.params;
+      const { ProduceName, Type, Date, Time, Tonnage, Cost, DealerName, Branch, Contact, SellingPrice } = req.body;
+      if (!ProduceName || !Type || !Date || !Time || !Tonnage || !Cost || !DealerName || !Branch || !Contact || !SellingPrice) {
+        return res.status(400).json({ error: 'All fields are required' });
+      }
+      const [result] = await Produce.update(ProduceId, ProduceName, Type, Date, Time, Tonnage, Cost, DealerName, Branch, Contact, SellingPrice);
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ error: 'Produce not found' });
+      }
+      res.status(200).json({ message: 'Produce updated successfully' });
+    } catch (error) {
+      res.status(500).json({ error: 'Error updating produce', details: error.message });
+    }
+  },
+
+  deleteProduce: async (req, res) => {
+    try {
+      const { ProduceId } = req.params;
+      const [result] = await Produce.delete(ProduceId);
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ error: 'Produce not found' });
+      }
+      res.status(200).json({ message: 'Produce deleted successfully' });
+    } catch (error) {
+      res.status(500).json({ error: 'Error deleting produce', details: error.message });
+    }
   }
 };
 
-const getAllProduce = async (req, res) => {
-  try {
-    const [results] = await Produce.getAll();
-    res.json(results);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-const getProduceById = async (req, res) => {
-  const ProduceId = req.params.id;
-  try {
-    const [results] = await Produce.getById(ProduceId);
-    if (results.length === 0) return res.status(404).json({ error: 'Produce not found' });
-    res.json(results[0]);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-const updateProduce = async (req, res) => {
-  const ProduceIdId = req.params.id;
-  const { ProduceId, ProduceName, Type, Date, Time, Tonnage, Cost, DealerName, Branch, Contact, SellingPrice } = req.body;
-  try {
-    await Produce.update(ProduceId, ProduceName, Type, Date, Time, Tonnage, Cost, DealerName, Branch, Contact, SellingPrice);
-    res.json({ message: 'Produce updated successfully' });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-const deleteProduce = async (req, res) => {
-  const ProduceId = req.params.id;
-  try {
-    await Produce.delete(ProduceId);
-    res.json({ message: 'Produce deleted successfully' });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-const addProduceToProduce = async (req, res) => {
-  const { userId, chapterId } = req.body;
-  try {
-    await Produce.addProduceToProduce(userId, chapterId);
-    res.status(201).json({ message: 'Produce added to chapter successfully' });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-const getProduceInProduce = async (req, res) => {
-  const ProduceId = req.params.id;
-  try {
-    const [results] = await Produce.getProduceInProduce(ProduceId);
-    res.json(results);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-module.exports = {
-  createProduce,
-  getAllProduce,
-  getProduceById,
-  updateProduce,
-  deleteProduce,
-  addProduceToProduce,
-  getProduceInProduce,
-};
+module.exports = produceController;

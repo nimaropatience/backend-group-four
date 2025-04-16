@@ -1,83 +1,70 @@
 const Sales = require('../models/salesmodels');
 
-const createSales = async (req, res) => {
-  const { SalesId, ProduceName, Tonnage, AmountPaid, BuyersName, SalesAgentsName, Date, Time, BuyersContact } = req.body;
-  try {
-    await Sales.create(SalesId, ProduceName, Tonnage, AmountPaid, BuyersName, SalesAgentsName, Date, Time, BuyersContact);
-    res.status(201).json({ message: 'Sales added successfully' });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+const salesController = {
+  createSale: async (req, res) => {
+    try {
+      const { SalesId, ProduceName, Tonnage, AmountPaid, BuyersName, SalesAgentsName, Date, Time, BuyersContact } = req.body;
+      if (!SalesId || !ProduceName || !Tonnage || !AmountPaid || !BuyersName || !SalesAgentsName || !Date || !Time || !BuyersContact) {
+        return res.status(400).json({ error: 'All fields are required' });
+      }
+      await Sales.create(SalesId, ProduceName, Tonnage, AmountPaid, BuyersName, SalesAgentsName, Date, Time, BuyersContact);
+      res.status(201).json({ message: 'Sale created successfully' });
+    } catch (error) {
+      res.status(500).json({ error: 'Error creating sale', details: error.message });
+    }
+  },
+
+  getAllSales: async (req, res) => {
+    try {
+      const [sales] = await Sales.getAll();
+      res.status(200).json(sales);
+    } catch (error) {
+      res.status(500).json({ error: 'Error fetching sales', details: error.message });
+    }
+  },
+
+  getSaleById: async (req, res) => {
+    try {
+      const { SalesId } = req.params;
+      const [sales] = await Sales.getById(SalesId);
+      if (sales.length === 0) {
+        return res.status(404).json({ error: 'Sale not found' });
+      }
+      res.status(200).json(sales[0]);
+    } catch (error) {
+      res.status(500).json({ error: 'Error fetching sale', details: error.message });
+    }
+  },
+
+  updateSale: async (req, res) => {
+    try {
+      const { SalesId } = req.params;
+      const { ProduceName, Tonnage, AmountPaid, BuyersName, SalesAgentsName, Date, Time, BuyersContact } = req.body;
+      if (!ProduceName || !Tonnage || !AmountPaid || !BuyersName || !SalesAgentsName || !Date || !Time || !BuyersContact) {
+        return res.status(400).json({ error: 'All fields are required' });
+      }
+      const [result] = await Sales.update(SalesId, ProduceName, Tonnage, AmountPaid, BuyersName, SalesAgentsName, Date, Time, BuyersContact);
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ error: 'Sale not found' });
+      }
+      res.status(200).json({ message: 'Sale updated successfully' });
+    } catch (error) {
+      res.status(500).json({ error: 'Error updating sale', details: error.message });
+    }
+  },
+
+  deleteSale: async (req, res) => {
+    try {
+      const { SalesId } = req.params;
+      const [result] = await Sales.delete(SalesId);
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ error: 'Sale not found' });
+      }
+      res.status(200).json({ message: 'Sale deleted successfully' });
+    } catch (error) {
+      res.status(500).json({ error: 'Error deleting sale', details: error.message });
+    }
   }
 };
 
-const getAllSales = async (req, res) => {
-  try {
-    const [results] = await Sales.getAll();
-    res.json(results);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-
-const getSalesById = async (req, res) => {
-  const SalesId = req.params.id;
-  try {
-    const [results] = await Sales.getById(SalesId);
-    if (results.length === 0) return res.status(404).json({ error: 'Sales not found' });
-    res.json(results[0]);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-const updateSales = async (req, res) => {
-  const salesId = req.params.id;
-  const { ProduceName, Tonnage, AmountPaid, BuyersName, SalesAgentsName, Date, Time, BuyersContact } = req.body;
-  try {
-    await Sales.update(salesId, ProduceName, Tonnage, AmountPaid, BuyersName, SalesAgentsName, Date, Time, BuyersContact);
-    res.json({ message: 'Sales updated successfully' });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-const deleteSales = async (req, res) => {
-  const SalesId = req.params.id;
-  try {
-    await Sales.delete(SalesId);
-    res.json({ message: 'Sales deleted successfully' });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-const addSalesToSales = async (req, res) => {
-  const { userId, SalesId } = req.body;
-  try {
-    await Sales.addSalesToSales(userId, SalesId);
-    res.status(201).json({ message: 'Sales added to Sales successfully' });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-const getSalesInSales = async (req, res) => {
-  const SalesId = req.params.id;
-  try {
-    const [results] = await Sales.getSalesInSales(SalesId);
-    res.json(results);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-module.exports = {
-  createSales,
-  getAllSales,
-  getSalesById,
-  updateSales,
-  deleteSales,
-  addSalesToSales,
-  getSalesInSales,
-};
+module.exports = salesController;

@@ -1,82 +1,70 @@
-const Receipt = require('../models/producemodels');
+const Receipt = require('../models/receiptmodel');
 
-const createReceipt = async (req, res) => {
-  const {ReceiptID, AmountPaid, SalesAgentsName, BuyersName, ProduceName } = req.body;
-  try {
-    await Produce.create(ReceiptID, AmountPaid, SalesAgentsName, BuyersName, ProduceName);
-    res.status(201).json({ message: 'Receipt added successfully' });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+const receiptController = {
+  createReceipt: async (req, res) => {
+    try {
+      const { ReceiptID, AmountPaid, SalesAgentsName, BuyersName, ProduceName } = req.body;
+      if (!ReceiptID || !AmountPaid || !SalesAgentsName || !BuyersName || !ProduceName) {
+        return res.status(400).json({ error: 'All fields are required' });
+      }
+      await Receipt.create(ReceiptID, AmountPaid, SalesAgentsName, BuyersName, ProduceName);
+      res.status(201).json({ message: 'Receipt created successfully' });
+    } catch (error) {
+      res.status(500).json({ error: 'Error creating receipt', details: error.message });
+    }
+  },
+
+  getAllReceipts: async (req, res) => {
+    try {
+      const [receipts] = await Receipt.getAll();
+      res.status(200).json(receipts);
+    } catch (error) {
+      res.status(500).json({ error: 'Error fetching receipts', details: error.message });
+    }
+  },
+
+  getReceiptById: async (req, res) => {
+    try {
+      const { ReceiptID } = req.params;
+      const [receipts] = await Receipt.getById(ReceiptID);
+      if (receipts.length === 0) {
+        return res.status(404).json({ error: 'Receipt not found' });
+      }
+      res.status(200).json(receipts[0]);
+    } catch (error) {
+      res.status(500).json({ error: 'Error fetching receipt', details: error.message });
+    }
+  },
+
+  updateReceipt: async (req, res) => {
+    try {
+      const { ReceiptID } = req.params;
+      const { AmountPaid, SalesAgentsName, BuyersName, ProduceName } = req.body;
+      if (!AmountPaid || !SalesAgentsName || !BuyersName || !ProduceName) {
+        return res.status(400).json({ error: 'All fields are required' });
+      }
+      const [result] = await Receipt.update(ReceiptID, AmountPaid, SalesAgentsName, BuyersName, ProduceName);
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ error: 'Receipt not found' });
+      }
+      res.status(200).json({ message: 'Receipt updated successfully' });
+    } catch (error) {
+      res.status(500).json({ error: 'Error updating receipt', details: error.message });
+    }
+  },
+
+  deleteReceipt: async (req, res) => {
+    try {
+      const { ReceiptID } = req.params;
+      const [result] = await Receipt.delete(ReceiptID);
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ error: 'Receipt not found' });
+      }
+      res.status(200).json({ message: 'Receipt deleted successfully' });
+    } catch (error) {
+      res.status(500).json({ error: 'Error deleting receipt', details: error.message });
+    }
   }
 };
 
-const getAllReceipt = async (req, res) => {
-  try {
-    const [results] = await Receipt.getAll();
-    res.json(results);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-const getReceiptById = async (req, res) => {
-  const ReceiptID = req.params.id;
-  try {
-    const [results] = await Receipt.getById(ReceiptID);
-    if (results.length === 0) return res.status(404).json({ error: 'Receipt not found' });
-    res.json(results[0]);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-const updateReceipt = async (req, res) => {
-  const ReceiptIDId = req.params.id;
-  const {ReceiptID, AmountPaid, SalesAgentsName, BuyersName, ProduceName} = req.body;
-  try {
-    await Receipt.update(ReceiptID, AmountPaid, SalesAgentsName, BuyersName, ProduceName);
-    res.json({ message: 'Receipt updated successfully' });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-const deleteReceipt = async (req, res) => {
-  const ReceiptId = req.params.id;
-  try {
-    await Receipt.delete(ReceiptId);
-    res.json({ message: 'Receipt deleted successfully' });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-const addReceiptToReceipt = async (req, res) => {
-  const { userId, chapterId } = req.body;
-  try {
-    await Receipt.addReceiptToReceipt(userId, chapterId);
-    res.status(201).json({ message: 'Receipt added to chapter successfully' });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-const getReceiptInReceipt = async (req, res) => {
-  const ReceiptId = req.params.id;
-  try {
-    const [results] = await Receipt.getReceiptInReceipt(ReceiptId);
-    res.json(results);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
-
-module.exports = {
-  createReceipt,
-  getAllReceipt,
-  getReceiptById,
-  updateReceipt,
-  deleteReceipt,
-  addReceiptToReceipt,
-  getReceiptInReceipt,
-};
+module.exports = receiptController;

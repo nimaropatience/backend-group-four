@@ -1,5 +1,5 @@
 const db = require('../config/db');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 
 const User = {
   create: async (username, password, email) => {
@@ -29,11 +29,9 @@ const User = {
   },
 
   getByEmail: (email) => {
-    const query = 'SELECT * FROM Produce WHERE email = ?';
+    const query = 'SELECT * FROM users WHERE email = ?';
     return db.promise().query(query, [email]);
   }
-
-
 };
 
 module.exports = User;

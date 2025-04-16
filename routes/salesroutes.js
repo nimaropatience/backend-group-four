@@ -1,16 +1,12 @@
 const express = require('express');
-const {createsales, getAllsales, getsalesById, updatesales, deletesales, addsalesTosales,getsalesInsales} = require('../controllers/salescontroller');
-const authenticateToken = require('../middleware/authMiddleware');
-
 const router = express.Router();
+const salesController = require('../controllers/salesControllers');
 
-router.get('/sales', authenticateToken, getAllsales);
-router.put('/sales/:id', authenticateToken, updatesales);
-router.delete('/sales/:id', authenticateToken, deletesales);
-router.post('/sales', authenticateToken, createsales);
-router.get('sales/:id', authenticateToken, getsalesById);
-router.post('/sales/:id/sales', authenticateToken, addsalesTosales);
-router.get('/sales/:id/sales', authenticateToken, getsalesInsales);
 
+router.post('/', salesController.createSale);
+router.get('/', salesController.getAllSales);
+router.get('/:SalesId', salesController.getSaleById);
+router.put('/:SalesId', salesController.updateSale);
+router.delete('/:SalesId', salesController.deleteSale);
 
 module.exports = router;
