@@ -3,6 +3,7 @@ CREATE DATABASE GCDL;
 USE GCDL;
 
 DROP TABLE IF EXISTS users;
+-- Create Users table
 CREATE TABLE users (
   id INT AUTO_INCREMENT PRIMARY KEY,
   username VARCHAR(50) NOT NULL UNIQUE,
@@ -12,7 +13,7 @@ CREATE TABLE users (
 );
 
 DROP TABLE IF EXISTS Produce;
-
+-- Create Produce table
 CREATE TABLE produce (
   ProduceId VARCHAR(50) PRIMARY KEY,
   ProduceName VARCHAR(100) NOT NULL,
@@ -29,7 +30,7 @@ CREATE TABLE produce (
 );
 
 DROP TABLE IF EXISTS Sales;
-
+-- Create Sales table
 CREATE TABLE Sales (
   SalesId VARCHAR(50) PRIMARY KEY,
   ProduceName VARCHAR(100) NOT NULL,
@@ -44,7 +45,7 @@ CREATE TABLE Sales (
 );
 
 DROP TABLE IF EXISTS Receipt;
-
+-- Create Receipt table
 CREATE TABLE Receipt (
   ReceiptID VARCHAR(50) PRIMARY KEY,
   AmountPaid DECIMAL(10,2) NOT NULL,
@@ -56,7 +57,7 @@ CREATE TABLE Receipt (
 
 
 DROP TABLE IF EXISTS creditSales;
-
+-- Create CreditSales table
 CREATE TABLE CreditSales (
   NIN VARCHAR(50) PRIMARY KEY,
   BuyersName VARCHAR(100) NOT NULL,
@@ -66,6 +67,8 @@ CREATE TABLE CreditSales (
   ProduceId VARCHAR(50) NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+
 DROP TABLE IF EXISTS stockManagement;
 
 -- Create StockManagement table
